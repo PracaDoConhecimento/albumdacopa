@@ -7,6 +7,10 @@ Class Conexao {
 	private $dbname  = "albumdacopa";
 	private $con     = NULL;	
 	
+    public function Conexao() {
+
+    }
+
 	public function Connect() { // estabelece conexao 
     	if(!$this->con) {
         	$myconn = @mysql_connect($this->db_host,$this->db_user,$this->db_pass);

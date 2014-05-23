@@ -194,6 +194,23 @@ Class Usuario {
 	}
 
 
+	/**
+	*	Verifica se o usuáiro já foi cadastrado
+	*	
+	*	@return boolean
+	*/
+	function usuarioCheck($id_usuario) 
+	{
+		$this->conn->Connect();
+		$sql = "SELECT * FROM $this->db_table WHERE id='{$id_usuario}'";
+		$query = mysql_query($sql) or die (mysql_error());	
+		$num_row = mysql_num_rows($query);
+		$this->conn->disconnect();	
+		return ( $num_row >=1 ) ? true : false;
+	}	
+
+
+
 }
 
 // cria instancia da classe usuario para uso

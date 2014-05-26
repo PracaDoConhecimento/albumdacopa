@@ -112,7 +112,7 @@ Class Album {
 	public function obterColecaoTime ($id_, $time_)
 	{
 		$i = 0;
-		$colecao = [];
+		$colecao = array();
 		$fig = new Figurinha();
 
 		if ( gettype($time_) == 'string' ) {

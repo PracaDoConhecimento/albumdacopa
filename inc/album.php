@@ -73,7 +73,7 @@ Class Album {
 	*/
 	public function obterColecao ($id_)
 	{		
-		$rows = [];
+		$rows = array();
 		$fig = new Figurinha();
 
 		$this->conn->Connect();

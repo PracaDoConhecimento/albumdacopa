@@ -1,9 +1,17 @@
+.link-cadastro {
+	text-align: center;
+	display: block;
+}
+
+.link-cadastro .btn-submit {
+	float: none;
+}
+
 /*Página de cadastro */
 
 #cabecalho {
 	text-align: center;
 	position: relative;
-	margin-top: 30px;
 }
 
 #logo img {
@@ -27,8 +35,19 @@
 	padding-top: 93px;
 }
 
+div.cadastro,
+div.login {
+	padding-left: 40px;
+}
+
+div.bemvindo {
+	border-right: 4px solid rgba(255,255,255,0.5);
+}
+
 .texto {
 	height: 375px;
+	text-shadow:1px 1px 0 #000;
+	color: #FFF;
 }
 
 .texto p {
@@ -37,29 +56,50 @@
 	font-family: Tahoma;
 }
 
-.texto p.strong {
+.titulo {
 	margin-bottom: 40px;
 	color: white;
 	font-size: 37px;
 	font-weight: bold;
 }
 
-.login {
-	padding-left: 100px;
-	border-left: 3px solid #e2edb9;
+h1.login,
+h1.cadastro {
+	
 }
 
-input {
+h1.cadastro {
+	margin-bottom: 0;
+}
+
+span.subtitulo {
+	display: block;
+	margin-bottom: 30px;
+}
+
+
+input[type=text],  {
 	width: 330px;
-	height: 40px;
-	margin-bottom: 20px;
 	display: block;
 }
 
+.error,
+.help-block {
+	font-size: 16px !important;
+	color: red !important;	
+}
+
+input.form-control {
+	margin-bottom: 5px;
+}
+
+
 .btn-submit {
-	margin-top: 40px;
-	background: #fdb139;
-	text-shadow: none;
+	margin-top: 10px;
+	padding: 10px 30px;
+	font-size: 25px;
+	text-shadow: 1px 1px rgba(0,0,0,0.3);
+	float: right;
 }
 
 #footer {
@@ -67,28 +107,33 @@ input {
 	text-align: center;
 }
 
-.btn-cadastro {
-	margin-left: 180px;
-}
-
 /*Fim página de cadastro*/
 
 /*Início do layout do álbum*/
 
+.btn-logout {
+	margin-left: 50px;
+}
+
 #usuario {
 	position: absolute;
-	top: 0;
-	right: 0;
+	top: 20px;
+	right: 0px;
+	text-align: right;
+}
+
+#usuario #login {
+	margin-bottom: 10px;
+}
+
+#usuario #form_logout {
+	float: right;
 }
 
 .box-secundario {
 	background: url('../img/grama.jpg') center center repeat-y;
 	background-size: cover;
 	margin-top: 100px;
-}
-
-.btn-logout {
-	margin-left: 50px;
 }
 
 .content {
@@ -135,6 +180,9 @@ input {
 
 
 
+/* LOGIN FAIL */
+
+.login-fail { text-align: center; padding:90px 0; }
 
 
 /*Fim do layout do álbum*/

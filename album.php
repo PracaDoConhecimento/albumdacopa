@@ -1,38 +1,20 @@
-<!DOCTYPE html>
-<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
-<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
-<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width">
+<?php 
+/**
+ *  Album usuário (view)
+ *
+ *  @todo Listar albuns por time
+ *
+ */
+require_once('inc/header.inc.php');
+require_once('inc/usuario.php');
+require_once('inc/album.php');
 
-        <link rel="stylesheet" href="css/bootstrap.min.css">        
-        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
-        <link rel="stylesheet/less" type="text/css" href="css-less/main.less" />
-        <link href='http://fonts.googleapis.com/css?family=Chewy' rel='stylesheet' type='text/css'>
-        <link rel="stylesheet" href="css/main.css">
-
-
-        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
-    </head>
-    <body>
-        <!--[if lt IE 7]>
-            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
-        <![endif]-->
-
-        <!-- This code is taken from http://twitter.github.com/bootstrap/examples/hero.html -->
+if($usuario->usuarioLogado()):
+?>
 
         <div id="cabecalho" class="container">
             <a id="logo" href="index.html"><img src="img/logocopaxbox.png"></a>
-            <div id="usuario">
-                <span>Felipe Fernandes (ripcorp@gmail.com)
-                </span>
-                <button class="btn btn-warning btn-logout">Logout</button>
-            </div>
+            <?php require_once('inc/usuario_box.inc.php'); ?>
         </div>
 
 
@@ -122,22 +104,10 @@
         
         </div><!--miolo / box-secundario-->
 
-        <div id="footer" class="container">
-            <img src="img/footer-support.jpg">
-        </div>
+<?php 
+else: 
+    require_once('inc/login_fail.php');
+endif; //login check 
 
-        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-        <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.9.1.min.js"><\/script>')</script>
-
-        <script src="js/vendor/bootstrap.min.js"></script>
-        <script type="text/javascript" src="js/less.min.js"></script>
-        <script src="js/main.js"></script>
-
-        <script>
-            var _gaq=[['_setAccount','UA-XXXXX-X'],['_trackPageview']];
-            (function(d,t){var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-            g.src=('https:'==location.protocol?'//ssl':'//www')+'.google-analytics.com/ga.js';
-            s.parentNode.insertBefore(g,s)}(document,'script'));
-        </script>
-    </body>
-</html>
+require_once('inc/footer.inc.php'); 
+?>

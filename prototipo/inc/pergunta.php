@@ -21,7 +21,7 @@
     //Comparar se a resposta e igual a escolha de resposta
 		
 		//teste se a respostas fosse certa
-		$pergunta->inserirFigurinha(1);
+		$pergunta->inserirFigurinha(8);
 		if($resposta==$opcao){
  			print("RESPOSTA CERTA");
  			
@@ -64,7 +64,7 @@
 			
 			
 			//testar se o usuario existe na pergunta senão cadastrar  
-			if($num_row!=NULL){
+			if($num_row==1){
 				//checar a data da pergunta da ultima pergunta do usuario 
 			 	$query = "SELECT data FROM resposta";
 			 	$result=mysql_query($query) or die("Problema para trazer a data da tabela pergunta".mysql_error());
@@ -87,8 +87,10 @@
 					
 			 }
 			 //inserir o usuario na tabela pergunta, pois até então ele não existia lá , futuro REFATORAR para outro método
+			
+			//colocar para inserir a data também
 			else{
-			 	//inserir 
+			 	///FALTA INSERIR A DATA
 				$insert = "INSERT INTO resposta (`id_usuario`) VALUES ($id_usuario)";
 			 	//processar
 				$result = mysql_query($insert) or die ("erro na inserção de dados".msql_erro());
@@ -155,16 +157,18 @@
 			}
 			//pegar agora o resultado da query das figurinhas que faltam
 			$result_fig_falta = mysql_query($sql);
-			$rows = mysql_fetch_assoc($result_fig_falta);
+			$rows = mysql_fetch_array($result_fig_falta);
+			mysql_free_result($result_fig_falta);
+		
 			
 			//random com o tamanho do vetor rows para pegar o id sorteado
 			$tamanho = sizeof($rows);
 			$random = rand(0,$tamanho-1);
-			var_dump($rows[0]);
-			//$insert="INSERT INTO albumdacopa.album  (id_usuario,id_figurinha) VALUE ($id_usuario,$rows[$random]) ";
-			//$result_insert = mysql_query($insert) or die ("erro na inserção de dados".msql_erro());
-			
-		
+			var_dump($rows[$random]);
+			$insert="INSERT INTO albumdacopa.album  (id_usuario,id_figurinha) VALUE ($id_usuario,$rows[$random]) ";
+			$result_insert = mysql_query($insert) or die ("erro na inserção de dados".msql_erro());
+			mysql_free_result($result_insert);
+			$this->conn->disconnect();	
 		}//FIM inserirFigurinha
 		
 	}// FIM DA CLASSE Pergunta
@@ -178,7 +182,7 @@
 
 		$pergunta = new Pergunta();
 		// Esse ID deverá ser obtido pela sessão
-		if($pergunta->possoPergunta(1)){
+		if($pergunta->possoPergunta(8)){
 			
 			$vetorPergunta=$pergunta->obterPergunta();
 			

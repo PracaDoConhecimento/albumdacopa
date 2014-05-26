@@ -1,0 +1,193 @@
+.link-cadastro {
+	text-align: center;
+	display: block;
+}
+
+.link-cadastro .btn-submit {
+	float: none;
+}
+
+/*Página de cadastro */
+
+#cabecalho {
+	text-align: center;
+	position: relative;
+}
+
+#logo img {
+	width: 630px;
+}
+
+#titulo {
+	text-align: center;
+	font-family:'Chewy', cursive;
+	font-size: 69px;
+	margin: 20px auto;
+}
+
+.miolo {
+	background: url('../img/campo.jpg') center center no-repeat;
+	background-size: cover;
+	min-height: 800px;
+}
+
+#box-principal {
+	padding-top: 93px;
+}
+
+div.cadastro,
+div.login {
+	padding-left: 40px;
+}
+
+div.bemvindo {
+	border-right: 4px solid rgba(255,255,255,0.5);
+}
+
+.texto {
+	height: 375px;
+	text-shadow:1px 1px 0 #000;
+	color: #FFF;
+}
+
+.texto p {
+	color: white;
+	font-size: 26px;
+	font-family: Tahoma;
+}
+
+.titulo {
+	margin-bottom: 40px;
+	color: white;
+	font-size: 37px;
+	font-weight: bold;
+}
+
+h1.login,
+h1.cadastro {
+	
+}
+
+h1.cadastro {
+	margin-bottom: 0;
+}
+
+span.subtitulo {
+	display: block;
+	margin-bottom: 30px;
+}
+
+
+input[type=text],  {
+	width: 330px;
+	display: block;
+}
+
+.error,
+.help-block {
+	font-size: 16px !important;
+	color: red !important;	
+}
+
+input.form-control {
+	margin-bottom: 5px;
+}
+
+
+.btn-submit {
+	margin-top: 10px;
+	padding: 10px 30px;
+	font-size: 25px;
+	text-shadow: 1px 1px rgba(0,0,0,0.3);
+	float: right;
+}
+
+#footer {
+	padding: 30px;
+	text-align: center;
+}
+
+/*Fim página de cadastro*/
+
+/*Início do layout do álbum*/
+
+.btn-logout {
+	margin-left: 50px;
+}
+
+#usuario {
+	position: absolute;
+	top: 20px;
+	right: 0px;
+	text-align: right;
+}
+
+#usuario #login {
+	margin-bottom: 10px;
+}
+
+#usuario #form_logout {
+	float: right;
+}
+
+.box-secundario {
+	background: url('../img/grama.jpg') center center repeat-y;
+	background-size: cover;
+	margin-top: 100px;
+}
+
+.content {
+	text-align: center;
+	margin-bottom: 160px;
+}
+
+.times {
+	margin-bottom: 120px;
+	text-align: center;
+}
+
+.icone {
+	margin-top: 85px;
+}
+
+.btn-pergunta {
+	width: 513px;
+	margin-top: 110px;
+	font-size: 43px;
+}
+
+.nome-time {
+	background: url('../img/icone2.png') -20px 25px no-repeat;
+	color: white;
+	margin: 0;
+	margin-bottom: 15px;
+	padding: 60px 95px;
+	text-shadow: 1px 1px 2px black;
+	text-align: left;
+}
+
+.fundo-figurinha1 {
+	margin-left: 25px;
+}
+
+.fundo-figurinha2 {
+	margin-left: 25px;
+	margin-top: 60px;
+}
+
+
+
+
+
+
+/* LOGIN FAIL */
+
+.login-fail { text-align: center; padding:90px 0; }
+
+
+/*Fim do layout do álbum*/
+
+
+
+
+

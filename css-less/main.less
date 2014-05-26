@@ -1,0 +1,37 @@
+/* Less */
+
+.has-feedback {
+	position: relative;
+
+	.form-control {
+		padding-right: 42.5px;
+	}
+
+	.form-control-feedback {
+		position: absolute;
+		top: 9px;
+		right: 9px;
+	}
+
+	.glyphicon-ok {
+		color: #3c763d;
+	}
+
+	.glyphicon-remove {
+		color: #a94442;
+	}
+
+	& + .has-success {
+		input {
+			border-color: green;
+		}
+	}
+
+	& + .has-error {
+		input {
+			border-color: red;
+		}
+	}
+
+
+}

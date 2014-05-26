@@ -15,7 +15,7 @@ $(document).ready(function() {
 			    	window.location="album.php";
 			    }
 			    else {
-			    	alert('ERRO: E-mail ou senha errado');
+			    	alert('Ops! E-mail ou senha errado');
 			    }
 			   }
 			});
@@ -92,7 +92,7 @@ $(document).ready(function() {
 			    	window.location="album.php";
 			    }
 			    else {
-			    	alert('Infelizmente ocorreu um erro inesperado.');
+			    	alert('Ops! Infelizmente ocorreu um erro inesperado.');
 			    }
 			   }
 			   /*beforeSend:function() {
@@ -100,7 +100,7 @@ $(document).ready(function() {
 			   }*/
 			});
 	 	} else {
-	 		$(".help-block").append('Está faltando preencher alguma coisa...');
+	 		$(".help-block").append('Ops! Está faltando preencher alguma coisa...');
 	 	}
 
 		return false;

@@ -142,32 +142,52 @@
 			$this->conn->Connect();	
 			$sql="SELECT id  FROM albumdacopa.figurinha";
 			//obter todas figurinhas que o usuário não tenha
-			$result = mysql_query("SELECT a.id_figurinha FROM albumdacopa.album  as a WHERE a.id_usuario=$id_usuario ");
-			$rows = mysql_fetch_assoc($result);
+			$result = mysql_query("SELECT * FROM albumdacopa.album  as a WHERE a.id_usuario=$id_usuario ");
+			
+			
+			while ($row = mysql_fetch_assoc($result)){
+						
+					$rows[]= $row;
+			}
+			
+			var_dump($rows);
+			
 			mysql_free_result($result);
 			if(!empty($rows)){
 				
 				$sql=$sql." where";
-			
+										
 				foreach($rows as $row){
 					
 					$sql=$sql." id<>".$row["id_figurinha"];
 				}
 			
 			}
+			
+			/*
 			//pegar agora o resultado da query das figurinhas que faltam
 			$result_fig_falta = mysql_query($sql);
-			$rows = mysql_fetch_array($result_fig_falta);
+			
+		
+			
+			while ($row = mysql_fetch_assoc($result_fig_falta)){
+						
+				$rows[]=$row;
+			}
 			mysql_free_result($result_fig_falta);
 		
+			var_dump($rows);
 			
 			//random com o tamanho do vetor rows para pegar o id sorteado
 			$tamanho = sizeof($rows);
 			$random = rand(0,$tamanho-1);
-			var_dump($rows[$random]);
-			$insert="INSERT INTO albumdacopa.album  (id_usuario,id_figurinha) VALUE ($id_usuario,$rows[$random]) ";
+		
+			$id_figurinha = $rows[$random][0];
+			
+			
+			$insert="INSERT INTO albumdacopa.album  (id_usuario,id_figurinha) VALUE ($id_usuario,$id_figurinha) ";
 			$result_insert = mysql_query($insert) or die ("erro na inserção de dados".msql_erro());
-			mysql_free_result($result_insert);
+			mysql_free_result($result_insert);*/
 			$this->conn->disconnect();	
 		}//FIM inserirFigurinha
 		

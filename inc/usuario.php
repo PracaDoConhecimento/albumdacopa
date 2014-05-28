@@ -133,9 +133,10 @@ Class Usuario {
 		unset($_SESSION[ $this->prefixoChaves . 'email' ]);
 		unset($_SESSION[ $this->prefixoChaves . 'name' ]);
 		unset($_SESSION[ $this->prefixoChaves . 'surname' ]);	
-
+        session_destroy();
+        
 		//direciona pra index
-		header('Location: ../index.php');
+		header('Location: ../index.php');        
 	}
 
 	/**

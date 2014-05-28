@@ -1,7 +1,7 @@
 <?php 
 
 	require_once("pergunta.php");
-	
+
    if(isset($_POST['btnSubmit']))
    {
         
@@ -10,7 +10,7 @@
 		$resposta=$pergunta->obterRespostasID($_POST['id']);
 		$opcao=$_POST['opcao'];
     //Comparar se a resposta e igual a escolha de resposta
-		
+
 		//teste se a respostas fosse certa
 		$pergunta->inserirFigurinha(8);
 		if($resposta==$opcao){
@@ -24,15 +24,15 @@
    }
 
    if(!isset($_POST['btnSubmit'])){
-	
+
 		$pergunta = new Pergunta();
 		// Esse ID deverá ser obtido pela sessão
 		if($pergunta->possoPergunta(8)){
-			
+
 			$vetorPergunta=$pergunta->obterPergunta();
-						
+
 	} 
-		
+
 ?>
 		
 	<form action="perguntateste.php" method="POST" > 		
@@ -49,5 +49,4 @@
 <?php 
 }
 ?>
-<!-- FIM IF que testas se o form foi submetido --> 	
-
+<!-- FIM IF que testas se o form foi submetido --> 

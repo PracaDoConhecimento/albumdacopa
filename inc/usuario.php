@@ -1,5 +1,5 @@
 <?php 
-require_once('global.php');
+//require_once('global.php');
 require_once('connection.php');
 
 Class Usuario {

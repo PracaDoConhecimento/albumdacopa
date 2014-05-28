@@ -1,7 +1,6 @@
 <?php require_once('inc/header.inc.php') ?>
 
-<div id="cabecalho" class="container">
-    <?php require_once('inc/usuario_box.inc.php'); ?>
+<div id="cabecalho" class="container">    
     <a id="logo" href="index.php"><img src="img/logocopaxbox.png"></a>
     <h1 id="titulo">Álbum de figurinhas virtual</h1>
 </div>

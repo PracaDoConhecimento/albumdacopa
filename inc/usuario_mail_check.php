@@ -1,5 +1,5 @@
 <?php 
-require_once('global.php');
+//require_once('global.php');
 require_once('usuario.php');
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {

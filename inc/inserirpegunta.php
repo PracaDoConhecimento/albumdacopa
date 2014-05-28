@@ -36,7 +36,7 @@
 		$correta = $_POST['correta']; 
 	
 		$result=mysql_query("INSERT INTO perguntas_respostas (pergunta, respostas,resposta_certa) VALUES ('$pergunta','$resposta','$correta');");
-		
+		mysql_free_result($result);
 		
 		$conn->disconnect();
 	}

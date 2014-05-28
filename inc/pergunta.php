@@ -24,7 +24,7 @@
 			$result = mysql_query(" SELECT * FROM resposta WHERE id_usuario=$id_usuario") or die ('a busca deu o seguinte erro'.mysql_error());		
 			$num_row = mysql_num_rows($result);
 			
-			//testar se o usuario existe na tabela pergunta, senão cadastrar  
+			//testar se o usuario existe na tabela resposta, senão cadastrar  
 			if($num_row==1){
 				//checar a data da pergunta da ultima pergunta do usuario 
 			 	$query = "SELECT data FROM resposta";
@@ -50,7 +50,7 @@
 			
 			//colocar para inserir a data também
 			else{
-			 	///FALTA INSERIR A DATA
+			 	///FALTA INSERIR A DATA ****
 				$insert = "INSERT INTO resposta (`id_usuario`) VALUES ($id_usuario)";
 			 	$result = mysql_query($insert) or die ("erro na inserção de dados".msql_erro());
 			 	$this->conn->disconnect();	 	
@@ -128,17 +128,31 @@
 			
 			//Trazer as figurinhas existentes
 			$sql="SELECT id  FROM albumdacopa.figurinha";
+					
 			if(!empty($rows)){
+				
+				$length = sizeof($rows);
 				
 				$sql=$sql." where";
 										
-				foreach($rows as $row){
+				for($i=0;$i<$length;$i++){
 					//inserir os ids das figurinhas que o usuário já possui
+					$row=$rows[$i];
 					$sql=$sql." id<>".$row["id_figurinha"];
-				}
 			
-			}
-						
+					//Verificar se uma posição depois para acrescentar
+					if(!empty($rows[$i+1])){
+						$sql=$sql." AND";	
+					}
+				
+					
+				}//FIM FOR
+			}//FIM IF
+			
+			var_dump($rows);
+			
+		
+					
 			//pegar agora o resultado da query das figurinhas que faltam
 			$result_fig_falta = mysql_query($sql);
 			
@@ -155,11 +169,10 @@
 			$random = rand(0,$tamanho-1);
 			
 			$id_figurinha = $rows_f[$random]['id'];
-			var_dump($id_figurinha);
-			
+					
 			$insert="INSERT INTO albumdacopa.album  (id_usuario,id_figurinha) VALUE ($id_usuario,$id_figurinha) ";
 			$result_insert = mysql_query($insert) or die ("erro na inserção de dados".msql_erro());
-			mysql_free_result($result_insert);
+			
 			$this->conn->disconnect();	
 		}//FIM inserirFigurinha
 		

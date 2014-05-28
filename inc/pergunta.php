@@ -32,6 +32,8 @@
 			 	$row = mysql_fetch_assoc($result);	 
 				mysql_free_result($result);
 
+				var_dump($row['data']);
+
 				$dataBusca = new DateTime($row['data']);
 				$dataAgora = new DateTime('NOW');
 				$dataResultado = $dataBusca->diff($dataAgora);
@@ -50,9 +52,11 @@
 
 			//colocar para inserir a data também
 			else{
-			 	///FALTA INSERIR A DATA ****
-				$insert = "INSERT INTO resposta (`id_usuario`) VALUES ($id_usuario)";
-			 	$result = mysql_query($insert) or die ("erro na inserção de dados".msql_erro());
+				$dtime = new DateTime($result->my_datetime);
+			 	$agora = $dtime->format("Y-m-d H:i:s");
+
+				$insert = "INSERT INTO resposta (`id_usuario`,`id_pergunta`,`data`) VALUES ($id_usuario, 0, NOW() )";
+			 	$result = mysql_query($insert) or die ("(inserir usuario na tabela pergunta) erro na inserção de dados -> ".mysql_error());
 			 	$this->conn->disconnect();	 	
 			}
 
@@ -72,7 +76,9 @@
 
 			while ($row = mysql_fetch_assoc($resultAsk)){
 
-				$rows[]= array($row['id'],$row['pergunta'],unserialize($row['respostas']),$row['resposta_certa']);
+				$row_respostas = preg_replace('!s:(\d+):"(.*?)";!e', "'s:'.strlen('$2').':\"$2\";'", $row['respostas']);
+
+				$rows[]= array($row['id'],$row['pergunta'],unserialize($row_respostas),$row['resposta_certa']);
 			}
 
 			mysql_free_result($resultAsk);
@@ -95,7 +101,7 @@
 		public function obterRespostasID($id_pergunta){
 
 			$this->conn->Connect();	
-			$result=mysql_query("select pe.resposta_certa from albumdacopa.perguntas_respostas as pe where pe.id=$id_pergunta;") or die (mysql_error());
+			$result=mysql_query("select pe.resposta_certa from perguntas_respostas as pe where pe.id=$id_pergunta;") or die (mysql_error());
 			$meta = mysql_fetch_assoc($result, 0); 
 
 			mysql_free_result($result);
@@ -116,7 +122,7 @@
 			$this->conn->Connect();	
 
 			//obter todas figurinhas que o usuário não tenha
-			$result = mysql_query("SELECT * FROM albumdacopa.album  as a WHERE a.id_usuario=$id_usuario ");
+			$result = mysql_query("SELECT * FROM album  WHERE id_usuario=$id_usuario ");
 
 			while ($row = mysql_fetch_assoc($result)){
 
@@ -127,7 +133,7 @@
 
 
 			//Trazer as figurinhas existentes
-			$sql="SELECT id  FROM albumdacopa.figurinha";
+			$sql="SELECT id FROM figurinha";
 
 			if(!empty($rows)){
 
@@ -147,9 +153,11 @@
 
 
 				}//FIM FOR
+			} else {
+				$sql=$sql . ";";
 			}//FIM IF
 
-			var_dump($rows);
+			/*var_dump($rows);*/
 
 
 
@@ -157,21 +165,39 @@
 			$result_fig_falta = mysql_query($sql);
 
 
-			//Preencher o vetor com as figurinhas que o usuário não tem 
-			while ($row_f = mysql_fetch_assoc($result_fig_falta)){
+			// se for falso não tem nenhuma figurinha
+			if ( mysql_num_rows($result_fig_falta) ) {
+				//Preencher o vetor com as figurinhas que o usuário não tem 
+				while ($row_f = mysql_fetch_assoc($result_fig_falta)){
 
-				$rows_f[]=$row_f;
+					$rows_f[]=$row_f;
+				}
+				mysql_free_result($result_fig_falta);				
+
+				//random com o tamanho do vetor rows para pegar o id sorteado
+				$tamanho = sizeof($rows_f);
+
+				$random = rand(0,$tamanho-1);
+				$id_figurinha = $rows_f[$random]['id'];
+
+				$insert="INSERT INTO album (id_usuario,id_figurinha) VALUE ($id_usuario,$id_figurinha) ";
+				$result_insert = mysql_query($insert) or die ("erro na inserção de dados ->".mysql_error());
+
+				return $id_figurinha;
+			} else {
+
+				//se 				
+				//$sql_total_figurinhas = "SELECT COUNT(*) FROM figurinhas;";
+				//$tamanho = mysql_result($sql_total_figurinhas, 0);
+
+				return false;
 			}
-			mysql_free_result($result_fig_falta);
 
-			//random com o tamanho do vetor rows para pegar o id sorteado
-			$tamanho = sizeof($rows_f);
-			$random = rand(0,$tamanho-1);
+			
+			
 
-			$id_figurinha = $rows_f[$random]['id'];
 
-			$insert="INSERT INTO albumdacopa.album  (id_usuario,id_figurinha) VALUE ($id_usuario,$id_figurinha) ";
-			$result_insert = mysql_query($insert) or die ("erro na inserção de dados".msql_erro());
+			
 
 			$this->conn->disconnect();	
 		}//FIM inserirFigurinha

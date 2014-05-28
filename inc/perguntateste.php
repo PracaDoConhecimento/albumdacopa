@@ -12,7 +12,12 @@
     //Comparar se a resposta e igual a escolha de resposta
 
 		//teste se a respostas fosse certa
-		$pergunta->inserirFigurinha(8);
+		//@param 
+		$pergunta->inserirFigurinha(17);
+
+
+		var_dump($resposta);
+
 		if($resposta==$opcao){
  			print("RESPOSTA CERTA");
  			
@@ -27,11 +32,9 @@
 
 		$pergunta = new Pergunta();
 		// Esse ID deverá ser obtido pela sessão
-		if($pergunta->possoPergunta(8)){
-
+		if($pergunta->possoPergunta(17)){
 			$vetorPergunta=$pergunta->obterPergunta();
-
-	} 
+		} 
 
 ?>
 		
@@ -39,11 +42,11 @@
 	<?php echo($vetorPergunta[1]) ?><br/>
 	
 		<input type="hidden" name="id" value="<?php echo($vetorPergunta[0]); ?>"/>
-		<input type ="radio" name="opcao" value="1"/> <?php echo($vetorPergunta[2][0]); ?><br/>
-  		<input type ="radio" name="opcao" value="2"/> <?php echo($vetorPergunta[2][1]); ?><br/>
-  		<input type ="radio" name="opcao" value="3"/> <?php echo($vetorPergunta[2][2]); ?> <br/>
+		<input type ="radio" name="opcao" value="0"/> <?php echo($vetorPergunta[2]['a']); ?><br/>
+  		<input type ="radio" name="opcao" value="1"/> <?php echo($vetorPergunta[2]['b']); ?><br/>
+  		<input type ="radio" name="opcao" value="2"/> <?php echo($vetorPergunta[2]['c']); ?> <br/>
+  		<input type ="radio" name="opcao" value="3"/> <?php echo($vetorPergunta[2]['d']); ?> <br/>
   		<input type="submit" name="btnSubmit" value="Submiter" />
-		
 
 	</form> 
 <?php 

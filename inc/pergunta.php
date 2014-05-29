@@ -16,7 +16,7 @@
 		* 
 		* @param ID do usuario logado $id_usuario
 		* 
-		* @return Retornará verdadeiro caso o tempo do último jogo do usuário seja maior que um dia
+		* @return Retornará verdadeiro caso o tempo do último jogo do usuário seja maior que um dia ou se nunca tiver jogado senão returná falso
 		*/
 		public function possoPergunta($id_usuario){
 
@@ -26,19 +26,17 @@
 
 			//testar se o usuario existe na tabela resposta, senão cadastrar  
 			if($num_row==1){
-				//checar a data da pergunta da ultima pergunta do usuario 
-			 	$query = "SELECT data FROM resposta";
-			 	$result=mysql_query($query) or die("Problema para trazer a data da tabela pergunta".mysql_error());
+				//checar a data_ultimo da pergunta da ultima pergunta do usuario 
+			 	$query = "SELECT data_ultimo FROM resposta";
+			 	$result=mysql_query($query) or die("Problema para trazer a data_ultimo da tabela pergunta".mysql_error());
 			 	$row = mysql_fetch_assoc($result);	 
 				mysql_free_result($result);
 
-				var_dump($row['data']);
-
-				$dataBusca = new DateTime($row['data']);
+				$dataBusca = new DateTime($row['data_ultimo']);
 				$dataAgora = new DateTime('NOW');
 				$dataResultado = $dataBusca->diff($dataAgora);
 
-				//Se a diferença entre o dia da última pergunta for de 1 
+				//Se a diferença entre o dia da última pergunta for de 1  
 				if($dataResultado->days>=1){
 
 					$this->conn->disconnect();
@@ -46,18 +44,20 @@
 					return true;
 
 				}
+				
+				else{
+					
+					return false;
+				}
 
 			 }
-			 //inserir o usuario na tabela pergunta, pois até então ele não existia lá , futuro REFATORAR para outro método
-
-			//colocar para inserir a data também
 			else{
-				$dtime = new DateTime($result->my_datetime);
-			 	$agora = $dtime->format("Y-m-d H:i:s");
 
-				$insert = "INSERT INTO resposta (`id_usuario`,`id_pergunta`,`data`) VALUES ($id_usuario, 0, NOW() )";
+				$insert = "INSERT INTO resposta (`id_usuario`,`data_ultimo`) VALUES ($id_usuario,NOW() )";
 			 	$result = mysql_query($insert) or die ("(inserir usuario na tabela pergunta) erro na inserção de dados -> ".mysql_error());
-			 	$this->conn->disconnect();	 	
+			 	
+			 	$this->conn->disconnect();	
+			 	return true; 	
 			}
 
 
@@ -85,10 +85,12 @@
 			$this->conn->disconnect();	
 
 			//Pegar o tamanho do array obtido
-			$tamanho= sizeof($rows);
+			$tamanho= sizeof($rows) or die ("Erro por a tabela pergunta e resposta está vazia") ;
+			
 			$random = rand(0,$tamanho-1);	
-
 			return $rows[$random];
+						
+			
 		}//FIM obterPergunta
 
 
@@ -182,7 +184,10 @@
 
 				$insert="INSERT INTO album (id_usuario,id_figurinha) VALUE ($id_usuario,$id_figurinha) ";
 				$result_insert = mysql_query($insert) or die ("erro na inserção de dados ->".mysql_error());
-
+				
+				
+				
+				$this->conn->disconnect();	
 				return $id_figurinha;
 			} else {
 
@@ -193,14 +198,21 @@
 				return false;
 			}
 
-			
-			
+				
 
-
-			
-
-			$this->conn->disconnect();	
+				
 		}//FIM inserirFigurinha
+		
+		
+		public function atualizarResposta($id_usuario,$id_pergunta){
+			$this->conn->Connect();
+			
+			$sql = "UPDATE resposta SET id_pergunta=$id_pergunta, data_ultimo=now() WHERE id_usuario=$id_usuario ";						
+			mysql_query($sql);
+			var_dump($sql);
+			
+			$this->conn->disconnect();		
+		}
 
 	}// FIM DA CLASSE Pergunta
 

@@ -11,7 +11,7 @@
 </head>
 <body>
 
-	<form action="./inserirpegunta.php" method="POST"> 
+	<form action="./inserirpergunta.php" method="POST"> 
 
 		Pergunta <input type="text" name="pergunta"/><br/>
 		1º Resposta <input type="text"  name="resposta1"/><br/>
@@ -36,7 +36,7 @@
 		$correta = $_POST['correta']; 
 
 		$result=mysql_query("INSERT INTO perguntas_respostas (pergunta, respostas,resposta_certa) VALUES ('$pergunta','$resposta','$correta');");
-		mysql_free_result($result);
+		
 
 		$conn->disconnect();
 	}

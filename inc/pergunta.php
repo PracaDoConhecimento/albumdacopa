@@ -34,7 +34,9 @@
 
 				$dataBusca = new DateTime($row['data_ultimo']);
 				$dataAgora = new DateTime('NOW');
-				$dataResultado = $dataBusca->diff($dataAgora);
+				$seconds_diff = $dataBusca - $dataAgora;
+				$dataResultado = floor($seconds_diff/3600/24);
+				//$dataResultado = $dataBusca->diff($dataAgora);
 
 				//Se a diferença entre o dia da última pergunta for de 1  
 				if($dataResultado->days>=1){

@@ -58,8 +58,9 @@ if($usuario->usuarioLogado()):
             ?>
             <div id="album-vazio" >
                 <h3>
-                    Você ainda não tem nenhuma figurinha no seu Álbum.<br>
-                    <small>Que tal começar respondendo uma <a href="#form_pergunta">pergunta</a>?</small>
+                    Poxa, seu álbum ainda está vazio!<br>
+                    E você ainda não tem nenhuma figurinha no seu Álbum.<br>
+                    <small>Mas que tal começar respondendo uma <a href="#form_pergunta">pergunta</a>?</small>
                 </h3>
             </div>
 

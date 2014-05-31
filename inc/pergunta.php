@@ -7,6 +7,7 @@
 	Class Pergunta{
 
 		private $conn;
+		private $qde_perguntas_dia = 2;
 
 		public function Pergunta(){
 			$this->conn=new Conexao();
@@ -34,27 +35,18 @@
 
 				$dataBusca = new DateTime($row['data_ultimo']);
 				$dataAgora = new DateTime('NOW');
-				$seconds_diff = $dataBusca - $dataAgora;
-				$dataResultado = floor($seconds_diff/3600/24);
-				//$dataResultado = $dataBusca->diff($dataAgora);
+				$dataResultado = date_diff($dataBusca, $dataAgora);
 
 				//Se a diferença entre o dia da última pergunta for de 1  
-				if($dataResultado->days>=1){
-
+				if($dataResultado >= 1) {
 					$this->conn->disconnect();
-
 					return true;
-
-				}
-				
-				else{
-					
+				}				
+				else {
 					return false;
 				}
-
 			 }
-			else{
-
+			else {				
 				$insert = "INSERT INTO resposta (`id_usuario`,`data_ultimo`) VALUES ($id_usuario,NOW() )";
 			 	$result = mysql_query($insert) or die ("(inserir usuario na tabela pergunta) erro na inserção de dados -> ".mysql_error());
 			 	

@@ -28,7 +28,7 @@
 			if($num_row==1){
 				//checar a data_ultimo da pergunta da ultima pergunta do usuario 
 			 	$query = "SELECT data_ultimo FROM resposta";
-			 	$result=mysql_query($query) or die("Problema para trazer a data_ultimo da tabela pergunta".mysql_error());
+			 	$result=mysql_query($query) or die("Problema para trazer a data_ultimo da tabela pergunta".mysql_error()." ".var_dump($result));
 			 	$row = mysql_fetch_assoc($result);	 
 				mysql_free_result($result);
 
@@ -115,6 +115,8 @@
 
 		/**
 		* 
+		* Inserir nova figurinha no banco de dados com referencia do usuário
+		*
 		* @param Identificador do usuário $id_usuario
 		* 
 		* @return void
@@ -189,13 +191,10 @@
 				
 				$this->conn->disconnect();	
 				return $id_figurinha;
-			} else {
+			} 
+			else {
 
-				//se 				
-				//$sql_total_figurinhas = "SELECT COUNT(*) FROM figurinhas;";
-				//$tamanho = mysql_result($sql_total_figurinhas, 0);
-
-				return false;
+				return 10; //codigo de album completo
 			}
 
 				
@@ -209,7 +208,7 @@
 			
 			$sql = "UPDATE resposta SET id_pergunta=$id_pergunta, data_ultimo=now() WHERE id_usuario=$id_usuario ";						
 			mysql_query($sql);
-			var_dump($sql);
+			//var_dump($sql);
 			
 			$this->conn->disconnect();		
 		}

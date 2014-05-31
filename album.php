@@ -8,101 +8,81 @@
 require_once('inc/header.inc.php');
 require_once('inc/usuario.php');
 require_once('inc/album.php');
+require_once('inc/pergunta.php');
 
 if($usuario->usuarioLogado()):
 ?>
+<div id="cabecalho" class="container">
+    <a id="logo" href="index.php"><img src="img/logocopaxbox.png"></a>
+    <h1 id="titulo">Álbum de figurinhas virtual</h1>
+    <?php require_once('inc/usuario_box.inc.php'); ?>
+</div>
 
-        <div id="cabecalho" class="container">
-            <a id="logo" href="index.html"><img src="img/logocopaxbox.png"></a>
-            <?php require_once('inc/usuario_box.inc.php'); ?>
-        </div>
 
+<div class="miolo box-secundario">
+    
+    <div class="container">        
 
-        <div class="miolo box-secundario">
-            
-            <div class="container">
+        <?php require_once('inc/pergunta_form.inc.php'); ?>
 
-                <div class="content">
+        <!-- ALBUM -->
+        <div id="album_usuario">
+            <?php                 
+                $album = new Album();
+                $colecao = $album->obterColecaoTime( $usuario->getID(), 1 );
 
-                    <img class="icone" src="img/icone1.png">
-                    <button class="btn btn-default btn-lg btn-pergunta">Responda sua pergunta</button>
+                if ($colecao):
+                    foreach ($colecao as $item):
+            ?>
+            <div id="<?php echo $item['time_nome'] ?>" class="times"> 
+                <?php 
+                echo "<h3 class='nome-time'>" . $item['time_nome'] . "</h3>"; 
+                
+                $indice = 0;
+                $figurinhas=$item['figurinhas'];
+                     
+                foreach ($figurinhas as $figurinha):
+                 ?>
+                    <div id="figurinha<?php echo $indice; ?>" class="pull-left fundo-figurinha1" style="margin-right:10px">
+                        <img src="<?php echo 'img/figurinhas/' . $figurinha['img_url']; ?>" class="img-thumbnail"/>
+                        <div class="titulo-figurinha"><?php echo $figurinha['label']; ?></div>
+                    </div><!-- .figurinha -->                
+                <?php
+                    $indice++;
+                endforeach;                                         
+                ?>                  
+                <div class="clearfix"></div>
+            <?php 
+                    endforeach;
+                else:
+            ?>
+            <div id="album-vazio" >
+                <h3>
+                    Você ainda não tem nenhuma figurinha no seu Álbum.<br>
+                    <small>Que tal começar respondendo uma <a href="#form_pergunta">pergunta</a>?</small>
+                </h3>
+            </div>
 
-                </div>
+            <?php endif; ?>
 
-                <div class="times">
-                    <h1 class="nome-time">Atlético de Madrid</h1>
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha2" src="img/fundofigurinha2.jpg">
-                    <img class="fundo-figurinha2" src="img/fundofigurinha2.jpg">
+            </div><!-- .time -->
+        </div><!-- .album -->
+<!--
+         <div class="times">
+            <h1 class="nome-time">Atlético de Madrid</h1>
+            <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
+            <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
+            <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
+            <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
+            <img class="fundo-figurinha2" src="img/fundofigurinha2.jpg">
+            <img class="fundo-figurinha2" src="img/fundofigurinha2.jpg">
+        </div>  
+ -->  
+        </div><!-- content -->
 
-                </div>
+    </div><!--container -->
 
-                <div class="times">
-                    <h1 class="nome-time">Bostafogo</h1>
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha2" src="img/fundofigurinha2.jpg">
-                    <img class="fundo-figurinha2" src="img/fundofigurinha2.jpg">
-                </div>
-
-                <div class="times">
-                    <h1 class="nome-time">Tabajara</h1>
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha2" src="img/fundofigurinha2.jpg">
-                    <img class="fundo-figurinha2" src="img/fundofigurinha2.jpg">
-                </div>
-
-                <div class="times">
-                    <h1 class="nome-time">Biro-Biro F.C</h1>
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha2" src="img/fundofigurinha2.jpg">
-                    <img class="fundo-figurinha2" src="img/fundofigurinha2.jpg">
-                </div>
-
-                <div class="times">
-                    <h1 class="nome-time">Unidos do Complexo</h1>
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha2" src="img/fundofigurinha2.jpg">
-                    <img class="fundo-figurinha2" src="img/fundofigurinha2.jpg">
-                </div>
-
-                <div class="times">
-                    <h1 class="nome-time">Quarteto Fantástico</h1>
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha2" src="img/fundofigurinha2.jpg">
-                    <img class="fundo-figurinha2" src="img/fundofigurinha2.jpg">
-                </div>
-
-                <div class="times">
-                    <h1 class="nome-time">Flamerda</h1>
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-                    <img class="fundo-figurinha2" src="img/fundofigurinha2.jpg">
-                    <img class="fundo-figurinha2" src="img/fundofigurinha2.jpg">
-                </div>
-
-            </div><!--container -->
-        
-        </div><!--miolo / box-secundario-->
+</div><!--miolo / box-secundario-->
 
 <?php 
 else: 

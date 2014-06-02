@@ -63,7 +63,7 @@
 
 				if ($dataResultado == 0) { //hoje
 
-					//se participacao não excede o limite de perguntas por dia
+					//testa o limite de perguntas por dia
 					if ($this->atualizaParticipacao($id_usuario, false, false) != 0) {
 						return true;
 					}
@@ -88,7 +88,7 @@
 			 }
 			// cadastra o usuário na tabela de respostas
 			else {				
-				$insert = "INSERT INTO resposta (`id_usuario`,`data_ultimo`) VALUES ($id_usuario,NOW() )";
+				$insert = "INSERT INTO resposta (`id_usuario`,`data_ultimo`) VALUES ( $id_usuario, NOW() )";
 			 	$result = mysql_query($insert) or die ("(inserir usuario na tabela pergunta) erro na inserção de dados -> ".mysql_error());
 			 	
 			 	$this->conn->disconnect();	

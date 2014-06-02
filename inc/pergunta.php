@@ -43,8 +43,9 @@
 				else {
 					/* php novo */
 					$interval = date_diff($dataAgora, $dataBusca);
-					$dataResultado = $interval->format('d');
+					$dataResultado = $interval->format('%d');
 				}
+
 
 				//Se a diferença entre o dia da última pergunta for de 1  
 				if($dataResultado >= 1) {
@@ -52,8 +53,8 @@
 					return true;
 				}				
 				else {
-					//echo $dataResultado;
-					return false;
+					echo $dataResultado;
+					//return false;
 				}
 			 }
 			else {				

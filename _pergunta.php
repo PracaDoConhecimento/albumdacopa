@@ -65,6 +65,9 @@ $(document).ready(function() {
             data: "id_pergunta="+id+"&resposta="+opcao+"&id_usuario="+<?php echo $user_id ?>,
             success: function(html) {
         
+                alert(html);
+
+
                 var estadoResposta = html.killWhiteSpace();
 
                 if (estadoResposta == "certa") {

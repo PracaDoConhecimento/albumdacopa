@@ -85,7 +85,7 @@
 		public function obterPergunta (){
 
 			$this->conn->Connect();	
-			$resultAsk=mysql_query("select * from perguntas_respostas") or die (mysql_error());
+			$resultAsk=mysql_query("SELECT * FROM perguntas_respostas") or die (mysql_error());
 
 			while ($row = mysql_fetch_assoc($resultAsk)){
 
@@ -181,6 +181,8 @@
 			//pegar agora o resultado da query das figurinhas que faltam
 			$result_fig_falta = mysql_query($sql);
 
+			var_dump($result_fig_falta); die();
+
 
 			// se for falso não tem nenhuma figurinha
 			if ( mysql_num_rows($result_fig_falta) ) {
@@ -197,7 +199,7 @@
 				$random = rand(0,$tamanho-1);
 				$id_figurinha = $rows_f[$random]['id'];
 
-				$insert="INSERT INTO album (id_usuario,id_figurinha) VALUE ($id_usuario,$id_figurinha) ";
+				$insert="INSERT INTO album (id_usuario,id_figurinha) VALUES ($id_usuario,$id_figurinha) ";
 				$result_insert = mysql_query($insert) or die ("erro na inserção de dados ->".mysql_error());
 				
 				

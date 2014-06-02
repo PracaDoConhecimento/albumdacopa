@@ -53,8 +53,8 @@
 					return true;
 				}				
 				else {
-					echo $dataResultado;
-					//return false;
+					//echo $dataResultado;
+					return false;
 				}
 			 }
 			else {				

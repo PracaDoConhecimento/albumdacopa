@@ -17,7 +17,7 @@ if($usuario->usuarioLogado()):
     $user_id = $usuario->getID();
     $pergunta = new Pergunta();
 
-    echo $pergunta->possoPergunta($user_id);    
+    echo 'posso pergunta? ' . $pergunta->possoPergunta($user_id);    
 
     //verificar se a pergunta pode ser feita o número passado é o id do usuário
     if($pergunta->possoPergunta($user_id)):

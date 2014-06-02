@@ -16,7 +16,7 @@ $opcao = $resposta_usuario;
 
 //Comparar se a resposta e igual a escolha de resposta
 if ( $resposta==$opcao ) { 
-	$resposta = $pergunta->inserirFigurinha($id_usuario); //atualiza o banco de dados com um nova figurinha
+	$resposta = $pergunta->inserirFigurinha($id_usuario); //atualiza o banco de dados com um nova figurinha	
 
 	//resposta false se album completo
 	if ($resposta == 10) {
@@ -31,4 +31,5 @@ else {
 
 //Atualizar no banco de dados resposta a data da última pergunta respondida pelo usuário
 $pergunta->atualizarResposta( $id_usuario, $id_pergunta );
+
 ?>

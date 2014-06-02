@@ -17,7 +17,10 @@ if($usuario->usuarioLogado()):
     $user_id = $usuario->getID();
     $pergunta = new Pergunta();
 
-    echo 'posso pergunta? ' . $pergunta->possoPergunta($user_id) . '<br>';    
+    //echo 'posso pergunta? ' . $pergunta->possoPergunta($user_id) . '<br>';    
+
+
+    echo 'participacao = ' . $pergunta->atualizaParticipacao($user_id);
 
     //verificar se a pergunta pode ser feita o número passado é o id do usuário
     if($pergunta->possoPergunta($user_id)):
@@ -64,9 +67,6 @@ $(document).ready(function() {
             type: 'POST',                        
             data: "id_pergunta="+id+"&resposta="+opcao+"&id_usuario="+<?php echo $user_id ?>,
             success: function(html) {
-        
-                alert(html);
-
 
                 var estadoResposta = html.killWhiteSpace();
 

@@ -8,6 +8,8 @@ $id_usuario = 15;
 
 $conn->Connect();
 
+
+
 //obter todas figurinhas que o usuário não tenha
 $result = mysql_query("SELECT * FROM album  WHERE id_usuario=$id_usuario ");
 

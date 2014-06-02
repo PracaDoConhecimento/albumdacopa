@@ -38,7 +38,15 @@
 
 				if (version_compare(phpversion(), '5.3.10', '<')) {
 					/* php antigo funciona dessa forma */
-					$dataResultado = sh_date_interval($dataAgora, $dataBusca, '%d' );									
+					$dataAgora = date('Y-m-d H:i:s'); //new DateTime('NOW');	
+
+					$dtSearch = strtotime($dataBusca);
+					$dtNow = strtotime($dataAgora);
+
+					$diferenca = $dtNow - $dtSearch;
+					$days = (int)($diferenca / 86400);
+
+					$dataResultado = $days;
 				}
 				else {
 					/* php novo */

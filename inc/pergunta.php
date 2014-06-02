@@ -38,11 +38,11 @@
 
 				if (version_compare(phpversion(), '5.3.10', '<')) {
 					/* php antigo funciona dessa forma */
-					$dataResultado = sh_date_interval($dataBusca, $dataAgora, '%d' );									
+					$dataResultado = sh_date_interval($dataAgora, $dataBusca, '%d' );									
 				}
 				else {
 					/* php novo */
-					$interval = date_diff($dataBusca, $dataAgora);
+					$interval = date_diff($dataAgora, $dataBusca);
 					$dataResultado = $interval->format('d');
 				}
 

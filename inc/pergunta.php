@@ -36,14 +36,15 @@
 				$dataBusca = new DateTime($row['data_ultimo']);
 				$dataAgora = new DateTime('NOW');
 
-				/* php antigo funciona dessa forma */
-				$ts1 = strtotime($dataBusca);
-				$ts2 = strtotime($dataAgora);
-				$seconds_diff = $ts2 - $ts1;
-				$dataResultado = floor($seconds_diff/3600/24);
-
-				/* php novo funciona com diff */
-				//$dataResultado = $dataBusca->diff($dataAgora);
+				if (version_compare(phpversion(), '5.3.10', '<')) {
+					/* php antigo funciona dessa forma */
+					$dataResultado = sh_date_interval($dataBusca, $dataAgora, '%d' );									
+				}
+				else {
+					/* php novo */
+					$interval = date_diff($dataBusca, $dataAgora);
+					$dataResultado = $interval->format('d');
+				}
 
 				//Se a diferença entre o dia da última pergunta for de 1  
 				if($dataResultado >= 1) {

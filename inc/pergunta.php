@@ -26,7 +26,7 @@
 			$num_row = mysql_num_rows($result);
 
 			//testar se o usuario existe na tabela resposta, senão cadastrar  
-			if($num_row==1) {
+			if($num_row>=1) {
 				//checar a data_ultimo da pergunta da ultima pergunta do usuario 
 			 	$query = "SELECT data_ultimo FROM resposta";
 			 	$result=mysql_query($query) or die("Problema para trazer a data_ultimo da tabela pergunta".mysql_error()." ".var_dump($result));
@@ -59,37 +59,31 @@
 				$this->conn->disconnect();
 							
 				$difference = $dataAgora->diff($dataBusca);
-				$dataResultado = (integer)$difference->d;
+				$dataResultado = (integer)$difference->days;
 
-				if ($dataResultado == 0) { //hoje
-
-					//testa o limite de perguntas por dia
-					if ($this->atualizaParticipacao($id_usuario, false, false) != 0) {
-						return true;
-					}
-					else {
-						return false;
-					}
-
-				} 
-				//Se a diferença entre o dia da última pergunta for de 1 
-				else if($dataResultado > 1) {
-						
-					//zera a contagem de perguntas por dia
+				if (($dataResultado >= 1)&&($this->obterParticipacao($id_usuario) <
+				 $this->qde_perguntas_dia)){
+					
+					$this->atualizaParticipacao($id_usuario, false, true);
+					return true;//retorno do possoPerguntar
+				}
+				//Quando a participação for igual ao limite
+				elseif (($dataResultado >= 1)&&($this->obterParticipacao($id_usuario) == $this->qde_perguntas_dia)){
 					$this->atualizaParticipacao($id_usuario, true, false);
-
-					// permite o usuario responder
-					return true;
-				}				
-				else {
+				
+			 	$result = mysql_query($insert) ;
+			 	
+			 	return true;//retorno do possoPerguntar
+				} 
+				elseif($dataResultado==0){
+				
 					return false;
 				}
 
-			 }
-			// cadastra o usuário na tabela de respostas
+			 }//FIM DO if($num_row==1) 
 			else {				
-				$insert = "INSERT INTO resposta (`id_usuario`,`data_ultimo`) VALUES ( $id_usuario, NOW() )";
-			 	$result = mysql_query($insert) or die ("(inserir usuario na tabela pergunta) erro na inserção de dados -> ".mysql_error());
+				$insert = "INSERT INTO resposta (`id_usuario`,data_ultimo, participacao) VALUES ( $id_usuario,0, 0  )";
+			 	$result = mysql_query($insert);
 			 	
 			 	$this->conn->disconnect();	
 			 	return true; 	
@@ -104,30 +98,14 @@
 		* @return retornará uma pergunta aleatória da tabela perguntas_respostas
 		*/
 		//
-		public function obterPergunta ($id_usuario = 0){
+		public function obterPergunta ($id_usuario){
 
 			$this->conn->Connect();	
-
-			$participacao_check = mysql_query("SELECT * FROM resposta WHERE id_usuario=$id_usuario") or die ('a busca deu o seguinte erro'.mysql_error());		
-			$participacao = mysql_num_rows($participacao_check);
-
-			//testar se o usuario existe na tabela resposta, 
-			//evita de repetir a última pergunta ao usuário
-			if($participacao == 1){
-				//se o usuário já respondeu alguma vez
-				$sql_pergunta = "SELECT * FROM `perguntas_respostas` WHERE id != (SELECT `id_pergunta` FROM `resposta` WHERE `id_usuario` = $id_usuario);";
-			}				 
-			else {
-				//nunca participou
-				$sql_pergunta = "SELECT * FROM perguntas_respostas";
-			}
-
-			$resultAsk=mysql_query($sql_pergunta) or die (mysql_error());
+			$sql_pergunta = "SELECT * FROM perguntas_respostas";
+			$resultAsk=mysql_query($sql_pergunta);
 
 			while ($row = mysql_fetch_assoc($resultAsk)){
-
 				$row_respostas = preg_replace('!s:(\d+):"(.*?)";!e', "'s:'.strlen('$2').':\"$2\";'", $row['respostas']);
-
 				$rows[]= array($row['id'],$row['pergunta'],unserialize($row_respostas),$row['resposta_certa']);
 			}
 
@@ -135,11 +113,11 @@
 			$this->conn->disconnect();	
 
 			//Pegar o tamanho do array obtido
-			$tamanho= sizeof($rows) or die ("Erro por a tabela pergunta e resposta está vazia") ;
+			$tamanho= sizeof($rows) ;
 			
 			$random = rand(0,$tamanho-1);	
 			return $rows[$random];
-						
+			
 			
 		}//FIM obterPergunta
 
@@ -163,16 +141,13 @@
 			return $meta['resposta_certa'];
 		}//FIM obterRespostaID
 
-
-
-
 		/**
 		* 
 		* @param $id_usuario, boolean para zerar o valor, boolean para permitir atualizar o valor
 		* 
 		* @return Resposta certa da pergunta que foi requerida pelo seu id
 		*/
-		public function atualizaParticipacao($id_usuario, $zerar = false, $atualizar = false) {
+		public function atualizaParticipacao($id_usuario, $zerar, $atualizar) {
 
 			$this->conn->Connect();
 
@@ -181,7 +156,7 @@
 
 
 			if ($zerar) {			
-				$participacao_query = mysql_query("UPDATE resposta SET participacao = 0 WHERE id_usuario = $id_usuario") or die ('erro na atualizacao da particpacao '.mysql_error());
+				$participacao_query = mysql_query("UPDATE resposta SET participacao = 0, data_ultimo=now() WHERE id_usuario = $id_usuario") or die ('erro na atualizacao da particpacao '.mysql_error());
 
 			} 
 			else {
@@ -211,9 +186,25 @@
 
 			}
 
+		}//FIM do atualizarParticipação
+
+
+		public function obterParticipacao ($id_usuario){
+			
+			$this->conn->Connect();	
+			$participacao_sql = "SELECT participacao FROM resposta WHERE id_usuario=$id_usuario;";
+			
+			var_dump($participacao_sql);
+				
+			$participacao_usuario = mysql_query($participacao_sql) or die('a busca deu o seguinte erro'.mysql_error());			
+			$participacao_result = mysql_fetch_assoc($participacao_usuario);
+
+			$participacao = (integer)$participacao_result['participacao'];	
+			
+			$this->conn->disconnect();
+			return $participacao;
+			
 		}
-
-
 
 
 		/**
@@ -260,15 +251,12 @@
 						$sql=$sql." AND";	
 					}
 
-
 				}//FIM FOR
 			} else {
 				$sql=$sql . ";";
-			}//FIM IF
+			}//FIM if(!empty($rows))
 
 			/*var_dump($rows);*/
-
-
 
 			//pegar agora o resultado da query das figurinhas que faltam
 			$result_fig_falta = mysql_query($sql);
@@ -293,9 +281,6 @@
 
 				$insert="INSERT INTO album (id_usuario,id_figurinha) VALUES ($id_usuario,$id_figurinha) ";
 				$result_insert = mysql_query($insert) or die ("erro na inserção de dados ->".mysql_error());
-				
-				
-				
 				$this->conn->disconnect();	
 				return $id_figurinha;
 			} 
@@ -303,8 +288,6 @@
 
 				return 10; //codigo de album completo
 			}
-
-				
 
 				
 		}//FIM inserirFigurinha

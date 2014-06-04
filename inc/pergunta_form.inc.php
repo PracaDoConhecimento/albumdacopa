@@ -17,13 +17,13 @@ if($pergunta->possoPergunta($user_id)):
             <div class="box">
                 <div class="pergunta"><?php echo($vetorPergunta[1]) ?></div>                                
                 <div class="radio">
-                    <label><input type ="radio"  name="resposta" id="resposta1" value="1"/> <?php echo($vetorPergunta[2][0]); ?></label>
+                    <label><input type ="radio"  name="resposta" id="resposta1" value="0"/> <?php echo($vetorPergunta[2][0]); ?></label>
                 </div>
                 <div class="radio">
-                    <label><input type ="radio"  name="resposta" id="resposta1" value="2"/> <?php echo($vetorPergunta[2][1]); ?></label>
+                    <label><input type ="radio"  name="resposta" id="resposta1" value="1"/> <?php echo($vetorPergunta[2][1]); ?></label>
                 </div>
                 <div class="radio">
-                    <label><input type ="radio"  name="resposta" id="resposta1" value="3"/> <?php echo($vetorPergunta[2][2]); ?></label>
+                    <label><input type ="radio"  name="resposta" id="resposta1" value="2"/> <?php echo($vetorPergunta[2][2]); ?></label>
                 </div>
             </div><!-- .box -->
             <input type="hidden" name="id" id="id_pergunta" value="<?php echo($vetorPergunta[0]); ?>"/>
@@ -33,13 +33,32 @@ if($pergunta->possoPergunta($user_id)):
 
     </div><!-- .box pergunta -->
 
+    <?php 
+        // CONTAGEM DE CHANCES
+        $chance = $pergunta->qde_perguntas_dia - $pergunta->obterParticipacao($user_id);
+
+        /*echo 'chances: ' . $chance . '<br>';
+        echo 'tentativas: ' . $pergunta->obterParticipacao($user_id) . '<br>';
+        echo 'total por dia: ' . $pergunta->qde_perguntas_dia . '<br>';*/
+
+        if (( $pergunta->obterParticipacao($user_id) < $pergunta->qde_perguntas_dia ) && ($chance - 1) != 0): 
+    ?>
+
+    <div id="box_pergunta_chance" class="hide">
+        <div class="ja-respondi">
+            <h3>Você ainda tem <?php echo ($chance - 1) ?> pergunta<?php echo (($chance - 1) > 1)? 's' : ''; ?></h3>
+            <a href="#" class="btn btn-warning" id="nova-pergunta">Carregar nova pergunta</a>
+        </div>
+    </div><!-- .box pergunta -->
+
+    <?php endif; ?>
 
 <?php else: ?>
 
     <div id="box_pergunta">
         <div class="ja-respondi">
-            <h3>Você não pode fazer mais perguntas hoje, 
-            volte amanhã para tentar conquistar uma nova figurinha!</h3>
+            <h3>Você não pode fazer mais perguntas hoje, <br>
+            volte amanhã para conquiste novas figurinhas!</h3>
         </div>
     </div><!-- .box pergunta -->
 
@@ -107,7 +126,9 @@ $('#form_pergunta_submit').click(function() {
         data: "id_pergunta="+id+"&resposta="+opcao+"&id_usuario="+<?php echo $user_id ?>,
         success: function(html) {
     
-            var estadoResposta = html.killWhiteSpace();
+            var estadoResposta = html.killWhiteSpace();   
+
+            /*console.log(estadoResposta);*/
 
             if (estadoResposta == "certa") {
                 $('#box_feedback_certo').modal('show');
@@ -120,6 +141,7 @@ $('#form_pergunta_submit').click(function() {
             }
 
             $('#box_pergunta').fadeOut('slow');
+            $('#box_pergunta_chance').fadeIn('slow').addClass('show');
         }
 
     });
@@ -127,6 +149,11 @@ $('#form_pergunta_submit').click(function() {
     return false;
 
 }); // click bind
+
+$('#nova-pergunta').click(function(event) {
+   window.setTimeout('location.reload()', 100);
+});
+
 
 });
 

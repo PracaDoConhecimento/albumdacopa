@@ -7,7 +7,7 @@
 	Class Pergunta{
 
 		private $conn;
-		private $qde_perguntas_dia = 3;
+		public $qde_perguntas_dia = 3;
 
 		public function Pergunta(){
 			$this->conn=new Conexao();

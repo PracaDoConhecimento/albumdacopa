@@ -54,6 +54,7 @@ if($usuario->usuarioLogado()):
                 endforeach;                                         
                 ?>                  
                 <div class="clearfix"></div>
+            </div><!-- .times -->
             <?php 
                     endforeach;
                 else:
@@ -62,26 +63,16 @@ if($usuario->usuarioLogado()):
                 <h3>
                     Poxa, seu álbum ainda está vazio!<br>
                     E você ainda não tem nenhuma figurinha no seu Álbum.<br>
+
                     <small>Mas que tal começar respondendo uma <a href="#form_pergunta">pergunta</a>?</small>
                 </h3>
             </div>
 
             <?php endif; ?>
 
-            </div><!-- .time -->
+            
         </div><!-- .album -->
-<!--
-         <div class="times">
-            <h1 class="nome-time">Atlético de Madrid</h1>
-            <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-            <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-            <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-            <img class="fundo-figurinha1" src="img/fundofigurinha.jpg">
-            <img class="fundo-figurinha2" src="img/fundofigurinha2.jpg">
-            <img class="fundo-figurinha2" src="img/fundofigurinha2.jpg">
-        </div>  
- -->  
-        </div><!-- content -->
+        
 
     </div><!--container -->
 

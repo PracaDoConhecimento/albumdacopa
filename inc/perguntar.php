@@ -20,13 +20,13 @@ if ( $resposta==$opcao ) {
 
 	//resposta false se album completo
 	if ($resposta == 10) {
-		print("completo");
+		echo "completo";
 	} else {
-		print("certa");
+		echo "certa";
 	}
 }     
 else {
-	echo("errada");
+	echo "errada";
 }		
 
 //Atualizar no banco de dados resposta a data da última pergunta respondida pelo usuário

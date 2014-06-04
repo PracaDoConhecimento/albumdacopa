@@ -37,10 +37,12 @@
 				$dataAgora = new DateTime('NOW');
 
 				if (version_compare(phpversion(), '5.3.10', '<')) {
+				
 					/* php antigo funciona dessa forma */
 					$dataAgora = date('Y-m-d H:i:s'); //new DateTime('NOW');	
-
-					$dtSearch = strtotime($dataBusca);
+					$dataBuscaFormato = date_format($dataBusca,'Y-m-d H:i:s');
+					
+					$dtSearch = strtotime($dataBuscaFormato);
 					$dtNow = strtotime($dataAgora);
 
 					$diferenca = $dtNow - $dtSearch;

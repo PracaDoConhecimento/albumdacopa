@@ -15,7 +15,7 @@
 	 session_destroy();
 	?>
 	<div id="cabecalho" class="container">
-	    <a id="logo" href="index.html"><img src="img/logocopaxbox.png"></a>
+	    <a id="logo" href="index.php"><img src="img/logocopaxbox.png"></a>
 	    <h1 id="titulo">Álbum de figurinhas virtual</h1>
 	</div>
 

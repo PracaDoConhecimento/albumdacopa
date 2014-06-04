@@ -7,7 +7,7 @@ $pergunta = new Pergunta();
 if($pergunta->possoPergunta($user_id)):
 
     //Trazer as perguntas que vão ser colocadas no formulário
-    $vetorPergunta = $pergunta->obterPergunta();
+    $vetorPergunta = $pergunta->obterPergunta($user_id);
 ?>
 
     <div id="box_pergunta">

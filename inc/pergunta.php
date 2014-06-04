@@ -231,7 +231,7 @@
 			//pegar agora o resultado da query das figurinhas que faltam
 			$result_fig_falta = mysql_query($sql);
 
-			var_dump($result_fig_falta); die();
+			//var_dump($result_fig_falta); die();
 
 
 			// se for falso não tem nenhuma figurinha

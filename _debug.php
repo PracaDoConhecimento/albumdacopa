@@ -3,83 +3,75 @@ require_once('inc/connection.php');
 require_once('inc/album.php');
 require_once('inc/pergunta.php');
 
+$pergunta = new Pergunta();
 $conn = new Conexao();
 $id_usuario = 15;
 
 $conn->Connect();
 
 
-
-//obter todas figurinhas que o usuário não tenha
-$result = mysql_query("SELECT * FROM album  WHERE id_usuario=$id_usuario ");
-
-while ($row = mysql_fetch_assoc($result)){
-
-	$rows[]= $row;
-}
-
+//checar a data_ultimo da pergunta da ultima pergunta do usuario 
+$query = "SELECT data_ultimo FROM resposta";
+$result=mysql_query($query) or die("Problema para trazer a data_ultimo da tabela pergunta".mysql_error()." ".var_dump($result));
+$row = mysql_fetch_assoc($result);	 
 mysql_free_result($result);
 
+$dataBusca = new DateTime($row['data_ultimo']);
+$dataAgora = new DateTime('NOW');
+			
+/* php novo */
+//$interval = $dataAgora->diff($dataBusca);
+//$interval = $dataBusca->diff($dataAgora)->format('%a');
+//$dataResultado = (inte$interval->format('%d');
+//$dataResultado = $interval->format('%d');
 
-//Trazer as figurinhas existentes
-$sql="SELECT id FROM figurinha";
-
-if(!empty($rows)){
-
-	$length = sizeof($rows);
-
-	$sql=$sql." where";
-
-	for($i=0;$i<$length;$i++){
-		//inserir os ids das figurinhas que o usuário já possui
-		$row=$rows[$i];
-		$sql=$sql." id<>".$row["id_figurinha"];
-
-		//Verificar se uma posição depois para acrescentar
-		if(!empty($rows[$i+1])){
-			$sql=$sql." AND";	
-		}
+//var_dump($dataAgora == $dataAgora);
 
 
-	}//FIM FOR
-} else {
-	$sql=$sql . ";";
-}//FIM IF
+/* ***** */
+/* php antigo funciona dessa forma */
+$dataAgora = date('Y-m-d H:i:s'); //new DateTime('NOW');	
+$dataBuscaFormato = date_format($dataBusca,'Y-m-d H:i:s');
 
-/*var_dump($rows);*/
+$dtSearch = strtotime($dataBuscaFormato);
+$dtNow = strtotime($dataAgora);
+
+$diferenca = $dtNow - $dtSearch;
+$days = (int)($diferenca / 86400);
+
+$dataResultado = $days;
+
+var_dump($dtSearch);
+var_dump($dtNow);
+var_dump($dataResultado);
+var_dump($dtNow > $dtSearch);
+var_dump($dtSearch > $dtNow);
+var_dump($dtSearch == $dtNow);
 
 
 
-//pegar agora o resultado da query das figurinhas que faltam
-$result_fig_falta = mysql_query($sql);
 
 
-// se for falso não tem nenhuma figurinha
-if ( mysql_num_rows($result_fig_falta) > 0 ) {
-	//Preencher o vetor com as figurinhas que o usuário não tem 
-	while ($row_f = mysql_fetch_assoc($result_fig_falta)){
+$conn->disconnect();
+		
+//$difference = $dataAgora->diff($dataBusca);
+//$dataResultado = (integer)$difference->days;
 
-		$rows_f[]=$row_f;
-	}
-	mysql_free_result($result_fig_falta);
-
-	//random com o tamanho do vetor rows para pegar o id sorteado
-	$tamanho = sizeof($rows_f);
-
-	$random = rand(0,$tamanho-1);
-	$id_figurinha = $rows_f[$random]['id'];		
-
-	$insert="INSERT INTO album (id_usuario,id_figurinha) VALUES ($id_usuario,$id_figurinha);";
-	$result_insert = mysql_query($insert) or die ("erro na inserção de dados ->".mysql_error());
-	
-	var_dump( $id_figurinha ); die();
-	
-	$conn->disconnect();	
-	return $id_figurinha;
+if (($dataAgora > $dataBuscaFormato) && ($pergunta->obterParticipacao($id_usuario) < $pergunta->qde_perguntas_dia)) {
+	$pergunta->atualizaParticipacao($id_usuario, false, true);
+	//return true;//retorno do possoPerguntar
+	echo 'true';
+}
+//Quando a participação for igual ao limite
+elseif (($dataAgora > $dataBuscaFormato)&&($pergunta->obterParticipacao($id_usuario) == $pergunta->qde_perguntas_dia)){
+	$pergunta->atualizaParticipacao($id_usuario, true, false);
+	$result = mysql_query($insert) ; //vai dar merda
+	//return true;//retorno do possoPerguntar
+	echo 'true';
 } 
-else {
-
-	return 10; //codigo de album completo
+elseif($dtSearch == $dtNow){
+	//return false;
+	echo 'false';
 }
 
 ?>

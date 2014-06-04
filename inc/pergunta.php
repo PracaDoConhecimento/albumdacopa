@@ -35,6 +35,7 @@
 
 				$dataBusca = new DateTime($row['data_ultimo']);
 				$dataAgora = new DateTime('NOW');
+				$dataBuscaFormato = $dataBusca;
 
 				if (version_compare(phpversion(), '5.3.10', '<')) {
 				
@@ -56,6 +57,7 @@
 					$interval = $dataBusca->diff($dataAgora)->format('%a');
 					//$dataResultado = (inte$interval->format('%d');
 					//$dataResultado = $interval->format('%d');
+
 				}
 
 				$this->conn->disconnect();
@@ -63,21 +65,21 @@
 				//$difference = $dataAgora->diff($dataBusca);
 				//$dataResultado = (integer)$difference->days;
 
-				if (($dataResultado >= 1)&&($this->obterParticipacao($id_usuario) <
+				if (($dataAgora > $dataBuscaFormato)&&($this->obterParticipacao($id_usuario) <
 				 $this->qde_perguntas_dia)){
 					
 					$this->atualizaParticipacao($id_usuario, false, true);
 					return true;//retorno do possoPerguntar
 				}
 				//Quando a participação for igual ao limite
-				elseif (($dataResultado >= 1)&&($this->obterParticipacao($id_usuario) == $this->qde_perguntas_dia)){
+				elseif (($dataAgora > $dataBuscaFormato)&&($this->obterParticipacao($id_usuario) == $this->qde_perguntas_dia)){
 					$this->atualizaParticipacao($id_usuario, true, false);
 				
 			 	$result = mysql_query($insert) ;
 			 	
 			 	return true;//retorno do possoPerguntar
 				} 
-				elseif($dataResultado==0){
+				elseif($dataAgora == $dataBuscaFormato){
 				
 					return false;
 				}
@@ -196,7 +198,7 @@
 			$this->conn->Connect();	
 			$participacao_sql = "SELECT participacao FROM resposta WHERE id_usuario=$id_usuario;";
 			
-			var_dump($participacao_sql);
+			//var_dump($participacao_sql);
 				
 			$participacao_usuario = mysql_query($participacao_sql) or die('a busca deu o seguinte erro'.mysql_error());			
 			$participacao_result = mysql_fetch_assoc($participacao_usuario);

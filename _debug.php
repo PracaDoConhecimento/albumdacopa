@@ -45,7 +45,7 @@ var_dump($dtSearch);
 var_dump($dtNow);
 var_dump($dataResultado);
 var_dump($dtNow > $dtSearch);
-var_dump($dtSearch > $dtNow);
+var_dump($dtNow < $dtSearch);
 var_dump($dtSearch == $dtNow);
 
 

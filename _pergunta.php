@@ -17,16 +17,16 @@ if($usuario->usuarioLogado()):
     $user_id = $usuario->getID();
     $pergunta = new Pergunta();
 
-    //echo 'posso pergunta? ' . $pergunta->possoPergunta($user_id) . '<br>';    
+    echo 'posso pergunta? ' . $pergunta->possoPergunta($user_id) . '<br>';    
 
 
-    echo 'participacao = ' . $pergunta->atualizaParticipacao($user_id);
+    echo 'participacao = ' . $pergunta->obterParticipacao($user_id);
 
     //verificar se a pergunta pode ser feita o número passado é o id do usuário
     if($pergunta->possoPergunta($user_id)):
 
         //Trazer as perguntas que vão ser colocadas no formulário
-        $vetorPergunta=$pergunta->obterPergunta();
+        $vetorPergunta=$pergunta->obterPergunta($user_id);
 ?>
 <img class="icone" src="img/icone1.png">
 

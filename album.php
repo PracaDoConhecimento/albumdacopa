@@ -5,7 +5,9 @@
  *  @todo Listar albuns por time
  *
  */
+
 require_once('inc/header.inc.php');
+require_once('inc/area_restrita.inc.php');
 require_once('inc/usuario.php');
 require_once('inc/album.php');
 require_once('inc/pergunta.php');

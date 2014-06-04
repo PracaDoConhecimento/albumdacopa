@@ -60,8 +60,8 @@
 
 				$this->conn->disconnect();
 							
-				$difference = $dataAgora->diff($dataBusca);
-				$dataResultado = (integer)$difference->days;
+				//$difference = $dataAgora->diff($dataBusca);
+				//$dataResultado = (integer)$difference->days;
 
 				if (($dataResultado >= 1)&&($this->obterParticipacao($id_usuario) <
 				 $this->qde_perguntas_dia)){

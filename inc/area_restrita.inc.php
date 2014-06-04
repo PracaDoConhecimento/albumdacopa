@@ -33,6 +33,7 @@
 		</div><!-- .box-principal -->
 	</div><!-- .miolo -->
 	<?php	 
+		die();
 	}
 	else{
 	 $_SESSION['registro'] = time();

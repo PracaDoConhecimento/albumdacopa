@@ -22,66 +22,41 @@
 		public function possoPergunta($id_usuario){
 
 			$this->conn->Connect();	
-			$result = mysql_query(" SELECT * FROM resposta WHERE id_usuario=$id_usuario") or die ('a busca deu o seguinte erro'.mysql_error());		
+			$result = mysql_query("SELECT * FROM resposta WHERE id_usuario=$id_usuario") or die ('a busca deu o seguinte erro'.mysql_error());		
 			$num_row = mysql_num_rows($result);
 
 			//testar se o usuario existe na tabela resposta, senão cadastrar  
 			if($num_row>=1) {
-				//checar a data_ultimo da pergunta da ultima pergunta do usuario 
-			 	$query = "SELECT data_ultimo FROM resposta";
+
+				// checar a data_ultimo da pergunta da ultima pergunta do usuario 
+				// seleciona a data se o usuário respondeu hoje
+			 	$query = "SELECT * FROM resposta WHERE ((DATEDIFF(NOW(),data_ultimo)*24*60*60) AND (id_usuario = {$id_usuario}));";
 			 	$result=mysql_query($query) or die("Problema para trazer a data_ultimo da tabela pergunta".mysql_error()." ".var_dump($result));
 			 	$row = mysql_fetch_assoc($result);	 
 				mysql_free_result($result);
-
-				$dataBusca = new DateTime($row['data_ultimo']);
-				$dataAgora = new DateTime('NOW');
-				$dataBuscaFormato = $dataBusca;
-
-				if (version_compare(phpversion(), '5.3.10', '<')) {
 				
-					/* php antigo funciona dessa forma */
-					$dataAgora = date('Y-m-d H:i:s'); //new DateTime('NOW');	
-					$dataBuscaFormato = date_format($dataBusca,'Y-m-d H:i:s');
+				// se a ultima participação do usuário foi de ontem ou para trás...
+				if ($row) {
+					//zera contagem de partcipacao
+					$this->zerarParticipacao($id_usuario);
 					
-					$dtSearch = strtotime($dataBuscaFormato);
-					$dtNow = strtotime($dataAgora);
-
-					$diferenca = $dtNow - $dtSearch;
-					$days = (int)($diferenca / 86400);
-
-					$dataResultado = $days;
-				}
-				else {					
-					/* php novo */
-					//$interval = $dataAgora->diff($dataBusca);
-					$interval = $dataBusca->diff($dataAgora)->format('%a');
-					//$dataResultado = (inte$interval->format('%d');
-					//$dataResultado = $interval->format('%d');
-
-				}
-
-				$this->conn->disconnect();
-							
-				//$difference = $dataAgora->diff($dataBusca);
-				//$dataResultado = (integer)$difference->days;
-
-				if (($dataAgora > $dataBuscaFormato)&&($this->obterParticipacao($id_usuario) <
-				 $this->qde_perguntas_dia)){
-					
-					$this->atualizaParticipacao($id_usuario, false, true);
-					return true;//retorno do possoPerguntar
-				}
-				//Quando a participação for igual ao limite
-				elseif (($dataAgora > $dataBuscaFormato)&&($this->obterParticipacao($id_usuario) == $this->qde_perguntas_dia)){
-					$this->atualizaParticipacao($id_usuario, true, false);
-				
-			 	$result = mysql_query($insert) ;
-			 	
-			 	return true;//retorno do possoPerguntar
+					// permite participacao
+					return true;
 				} 
-				elseif($dataAgora == $dataBuscaFormato){
-				
-					return false;
+				else {
+					// se a participacao do usário foi hoje...
+
+					// se o numero de participicoes for igual ou maior que o limite... 
+					if ($this->obterParticipacao($id_usuario) >= $this->qde_perguntas_dia) {
+						
+						// não permite participacao						
+						return false;	
+					} 
+					else {
+						
+						// permite participacao
+						return true;
+					}
 				}
 
 			 }//FIM DO if($num_row==1) 
@@ -145,55 +120,48 @@
 			return $meta['resposta_certa'];
 		}//FIM obterRespostaID
 
+
+		/**
+		* 
+		* @param $id_usuario
+		* 
+		* @return Resposta certa da pergunta que foi requerida pelo seu id
+		*/
+		public function zerarParticipacao($id_usuario) {
+
+			$this->conn->Connect();
+
+			//limite de perguntas por dia
+			$participacao_limite = $this->qde_perguntas_dia;
+			$participacao_query = mysql_query("UPDATE resposta SET participacao = 0, data_ultimo=now() WHERE id_usuario = {$id_usuario}") or die ('erro no reset da particpacao '.mysql_error());
+
+		}
+
 		/**
 		* 
 		* @param $id_usuario, boolean para zerar o valor, boolean para permitir atualizar o valor
 		* 
 		* @return Resposta certa da pergunta que foi requerida pelo seu id
 		*/
-		public function atualizaParticipacao($id_usuario, $zerar, $atualizar) {
-
-			$this->conn->Connect();
+		public function atualizaParticipacao($id_usuario) {			
 
 			//limite de perguntas por dia
 			$participacao_limite = $this->qde_perguntas_dia;
 
+			// pega o numero atual da participacao do usuário		
+			$participacao_atual = $this->obterParticipacao($id_usuario);			
+	
+			// participacao acrescida de 1, e atualiza respectiva tabela
+			$participacao_atual++;
 
-			if ($zerar) {			
-				$participacao_query = mysql_query("UPDATE resposta SET participacao = 0, data_ultimo=now() WHERE id_usuario = $id_usuario") or die ('erro na atualizacao da particpacao '.mysql_error());
-
-			} 
-			else {
-				// pega o numero atual da participacao do usuário
-				$participacao_sql = "SELECT participacao FROM resposta WHERE id_usuario=$id_usuario";		
-				$participacao_usuario = mysql_query($participacao_sql) or die('a busca deu o seguinte erro'.mysql_error());			
-				$participacao_result = mysql_fetch_assoc($participacao_usuario);
-
-				$participacao = (integer)$participacao_result['participacao'];						
-
-				if ( $participacao < $participacao_limite ) {
-
-					if ($atualizar) {
-						// participacao acrescida de 1, e atualiza respectiva tabela
-						$participacao++;
-						$participacao_query = mysql_query("UPDATE resposta SET participacao = {$participacao} WHERE id_usuario = $id_usuario") or die ('erro na atualizacao da particpacao '.mysql_error());		
-						//return 'atualizou';	
-					}
-
-					$participacao_diff = $participacao_limite - $participacao;
-
-					return $participacao_diff;	
-
-				} else {
-					return false;
-				}
-
-			}
+			$this->conn->Connect();
+			$participacao_query = mysql_query("UPDATE resposta SET participacao = {$participacao_atual} WHERE id_usuario = $id_usuario") or die ('erro na atualizacao da particpacao '.mysql_error());								
+			$this->conn->disconnect();		
 
 		}//FIM do atualizarParticipação
 
 
-		public function obterParticipacao ($id_usuario){
+		public function obterParticipacao($id_usuario){
 			
 			$this->conn->Connect();	
 			$participacao_sql = "SELECT participacao FROM resposta WHERE id_usuario=$id_usuario;";
@@ -222,8 +190,6 @@
 		public function inserirFigurinha($id_usuario){
 
 			$this->conn->Connect();				
-
-
 
 			//obter todas figurinhas que o usuário não tenha
 			$result = mysql_query("SELECT * FROM album  WHERE id_usuario=$id_usuario ");
@@ -305,7 +271,7 @@
 			//var_dump($sql);
 
 			// atualiza participacao de usuario
-			$this->atualizaParticipacao($id_usuario, false, true);
+			$this->atualizaParticipacao($id_usuario);
 			
 			$this->conn->disconnect();		
 		}

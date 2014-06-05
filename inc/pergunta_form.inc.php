@@ -17,13 +17,13 @@ if($pergunta->possoPergunta($user_id)):
             <div class="box">
                 <div class="pergunta"><?php echo($vetorPergunta[1]) ?></div>                                
                 <div class="radio">
-                    <label><input type ="radio"  name="resposta" id="resposta1" value="0"/> <?php echo($vetorPergunta[2][0]); ?></label>
+                    <label><input type ="radio"  name="resposta" id="resposta1" value="1"/> <?php echo($vetorPergunta[2][0]); ?></label>
                 </div>
                 <div class="radio">
-                    <label><input type ="radio"  name="resposta" id="resposta1" value="1"/> <?php echo($vetorPergunta[2][1]); ?></label>
+                    <label><input type ="radio"  name="resposta" id="resposta1" value="2"/> <?php echo($vetorPergunta[2][1]); ?></label>
                 </div>
                 <div class="radio">
-                    <label><input type ="radio"  name="resposta" id="resposta1" value="2"/> <?php echo($vetorPergunta[2][2]); ?></label>
+                    <label><input type ="radio"  name="resposta" id="resposta1" value="3"/> <?php echo($vetorPergunta[2][2]); ?></label>
                 </div>
             </div><!-- .box -->
             <input type="hidden" name="id" id="id_pergunta" value="<?php echo($vetorPergunta[0]); ?>"/>

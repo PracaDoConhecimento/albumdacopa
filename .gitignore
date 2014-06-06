@@ -1,2 +1,7 @@
 
 prototipo/inc/global.php
+deploy.php
+error_log
+fetch.php
+inc/error_log
+inc/connection.php

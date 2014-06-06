@@ -111,7 +111,7 @@
 
 			$this->conn->Connect();	
 			$result=mysql_query("SELECT pe.resposta_certa FROM perguntas_respostas AS pe WHERE pe.id=$id_pergunta;") or die (mysql_error());
-			$meta = mysql_fetch_assoc($result, 0); 
+			$meta = mysql_fetch_assoc($result); 
 
 			mysql_free_result($result);
 

@@ -1,7 +1,7 @@
 <?php require_once('inc/header.inc.php') ?>
 
 <div id="cabecalho" class="container">    
-    <a id="logo" href="index.php"><img src="img/logocopaxbox.png"></a>
+    <a id="logo" href="index"><img src="img/logocopaxbox.png"></a>
     <h1 id="titulo">Álbum de figurinhas virtual</h1>
 </div>
 
@@ -9,13 +9,17 @@
     <div id="box-principal" class="container">        
         <div class="row">            
             <div class="texto bemvindo col-xs-12 col-md-6">
-                <h2 class="titulo">Olá, bem-vindo!</h2>
-                <p>Colecione figurinhas dos jogadores que irão participar da Copa Xbox na Praça do Conhecimento. 
-                Responda perguntas a cada dia para ganhar novas figurinhas.</p> 
-                <p>Faça o login para acessar o álbum ou realize seu cadastro. É simples e rápido!</p>
+                <h2 class="titulo">Olá, seja bem-vindo!</h2>
+                <p>Quer colecionar as figurinhas do jogadores participantes da Copa Xbox, 
+                na Praça do Conhecimento? Realize seu <strong>cadastro</strong> e responda novas perguntas 
+                a cada dia para ganhar novas figurinhas.</p>
+                <p>Para acessar o álbum e conferir sua coleção, faça o seu <strong>login</strong>. 
+                Simples e rápido, como abrir um pacote de figurinhas. Aproveite!</p>
+
                 <?php if (isset($_GET['form']) != 'cadastro'): ?>
                 <a href="?form=cadastro" class="link-cadastro"><button class="btn btn-warning btn-submit btn-cadastro btn-lg">Cadastre-se</button></a>
-                <?php endif; ?>
+                <?php endif; ?>            
+
             </div>
 
             <?php if (isset($_GET['form']) != 'cadastro'): ?>

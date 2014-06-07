@@ -61,7 +61,7 @@
 
 	 				<form action="./atualizarpergunta.php" method="POST" role="form" class="form"> 
 
-	                    <input type="hidden" name="id" value=<?php print($row[0])?> />
+	                    <input type="hidden" name="id" value="<?php print($row[0])?>" >
 	                    <h1>Atualize a pergunta:</h1>
 	                    <input type="text" name="perguntabusca" value="<?php print($row[1])?>" class="form-control" ><br/>
 	                    <label>1º Resposta</label> <input type="text"  name="resposta1" class="form-control" value="<?php print($respostas[0]) ?>" > <br/>

@@ -55,6 +55,7 @@
 
           ga('create', 'UA-36613630-5', 'pracadoconhecimento.com.br');
           ga('send', 'pageview');
+          ga('require', 'displayfeatures');
 
         </script>
     </body>

@@ -12,10 +12,11 @@
 #cabecalho {
 	text-align: center;
 	position: relative;
+	margin-top: 20px;
 }
 
 #logo img {
-	width: 630px;
+	/*width: 630px;*/
 }
 
 #titulo {
@@ -102,11 +103,6 @@ input.form-control {
 	float: right;
 }
 
-#footer {
-	padding: 30px;
-	text-align: center;
-}
-
 /*Fim página de cadastro*/
 
 /*Início do layout do álbum*/
@@ -189,5 +185,97 @@ input.form-control {
 
 
 
+.box-regras {
+	text-shadow:1px 1px 0 #000;
+	color: #FFF;
+	font-size: 20px;
+	font-family: Tahoma;
+	padding-bottom: 150px;
+}
+
+.box-regras a {
+	color: #FFF;
+	font-weight: bold;
+}
+
+.box-regras .album .img-rouded {
+	width: 223px;
+}
+
+.box-regras .tecnico .img-rouded {
+	width: 160px;	
+}
 
 
+
+.regras-imagem {
+	padding-top: 50px;
+	border-radius: 10px;
+}
+
+
+.box-regras h2 {
+	font-size: 55px;
+	color: #f7941e;
+	font-family:'Chewy', cursive;
+	text-shadow: 1px 1px 0px #FFF;
+}
+
+#footer .linha-um {
+	background: #00a651;
+	color:#fff;
+	font-size: 14px;
+	padding: 20px 0;
+}
+
+#footer .linha-um a {
+	color:#fff;
+	display: inline-block;
+	padding: 2px 6px;
+	margin: 2px 0;
+	border-radius: 3px;
+}
+
+#footer .linha-um a:hover {
+	background: #8fdfb6;
+	color: #1d7429;
+	text-decoration: none;
+
+}
+
+#footer .linha-um ul {
+	margin: 0 0 0 -7px;
+	padding: 0;
+	list-style: none;
+}
+
+#footer .linha-um ul li {
+	margin:0;
+	padding: 0;
+}
+
+#footer .linha-um .compartilhe {
+	text-align: right;	
+}
+
+#footer .linha-um .compartilhe .botao {
+	margin-bottom: 10px;
+}
+
+#footer .linha-um .titulo {
+	font-size: 16px;
+	text-shadow:1px 1px 1px #000;
+	margin: 0 0 10px 0;
+}
+
+#footer .linha-dois {
+	padding: 30px 0;
+}
+
+#footer .linha-dois a {
+	color: #1d7429;
+}
+
+#footer .linha-dois .support {
+	text-align: right;
+}

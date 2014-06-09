@@ -276,6 +276,21 @@
 			$this->conn->disconnect();		
 		}
 
+
+
+		public function atualizarPergunta($id, $pergunta, $respostas, $resposta_correta) {
+			$this->conn->Connect();
+			$id=$id;
+			$pergunta_nova = $pergunta;
+			$respostas_novas = serialize($respostas);
+			$respostacorreta_nova = $resposta_correta; 
+			$result=mysql_query("UPDATE perguntas_respostas SET pergunta='$pergunta_nova',respostas='$respostas_novas', resposta_certa='$respostacorreta_nova' WHERE id='$id';");							
+			$this->conn->disconnect();
+
+			return 'ok';
+		}
+
+
 	}// FIM DA CLASSE Pergunta
 
 

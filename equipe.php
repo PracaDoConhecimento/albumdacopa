@@ -18,7 +18,7 @@
                     <img src="img/equipe/luana.png" class="img-rouded" />
                     <img src="img/equipe/hiago.png" class="img-rouded" >
                     <img src="img/equipe/iury.png" class="img-rouded" >
-                    <img src="img/equipe/marcos.png" class="img-rouded" >
+                    <img src="img/equipe/marcos.jpg" class="img-rouded" >
                     <img src="img/equipe/felipe-mello.png" class="img-rouded" >
                 </div>
                 <br>

@@ -44,16 +44,34 @@ if($usuario->usuarioLogado()):
                 $figurinhas=$item['figurinhas'];
                      
                 foreach ($figurinhas as $figurinha):
-                 ?>
+                    if ( $figurinha['tipo'] == 1 ): 
+                ?>
                     <div id="figurinha<?php echo $indice; ?>" class="pull-left fundo-figurinha1" style="margin-right:10px">
                         <img src="<?php echo 'img/figurinhas/' . $figurinha['img_url']; ?>" class="img-thumbnail"/>
                         <div class="titulo-figurinha"><?php echo $figurinha['label']; ?></div>
-                    </div><!-- .figurinha -->                
-                <?php
+                    </div><!-- .figurinha -->                       
+                <?php 
+                    endif; 
                     $indice++;
                 endforeach;                                         
                 ?>                  
                 <div class="clearfix"></div>
+
+                <div class="desejos">
+                <?php 
+                foreach ($figurinhas as $figurinha): 
+                    if ( $figurinha['tipo'] == 2 ): 
+                ?>
+                    <div id="figurinha-x2-<?php echo $indice; ?>" class="figurinha-x2">
+                        <img src="<?php echo 'img/figurinhas/' . $figurinha['img_url']; ?>" class="img-thumbnail"/>
+                        <div class="titulo-figurinha"><?php echo $figurinha['label']; ?></div>
+                    </div>
+                <?php 
+                    endif; 
+                endforeach; 
+                ?>                
+                <div class="clearfix"></div>
+                </div><!-- .desejos -->
             </div><!-- .times -->
             <?php 
                     endforeach;

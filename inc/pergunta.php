@@ -84,8 +84,9 @@
 			$resultAsk=mysql_query($sql_pergunta);
 
 			while ($row = mysql_fetch_assoc($resultAsk)){
+				$pergunta = html_entity_decode(base64_decode($row['pergunta']));
 				$row_respostas = preg_replace('!s:(\d+):"(.*?)";!e', "'s:'.strlen('$2').':\"$2\";'", $row['respostas']);
-				$rows[]= array($row['id'],$row['pergunta'],unserialize($row_respostas),$row['resposta_certa']);
+				$rows[]= array($row['id'],$pergunta,unserialize($row_respostas),$row['resposta_certa']);
 			}
 
 			mysql_free_result($resultAsk);

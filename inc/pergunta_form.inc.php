@@ -8,6 +8,12 @@ if($pergunta->possoPergunta($user_id)):
 
     //Trazer as perguntas que vão ser colocadas no formulário
     $vetorPergunta = $pergunta->obterPergunta($user_id);
+
+
+    $resposta1 = utf8_decode($vetorPergunta[2][0]);
+    $resposta2 = utf8_decode($vetorPergunta[2][1]);
+    $resposta3 = utf8_decode($vetorPergunta[2][2]);    
+
 ?>
 
     <div id="box_pergunta">
@@ -15,15 +21,17 @@ if($pergunta->possoPergunta($user_id)):
 
         <form action="" method="" id="form_pergunta" role="form">	
             <div class="box">
-                <div class="pergunta"><?php echo($vetorPergunta[1]) ?></div>                                
-                <div class="radio">
-                    <label><input type ="radio"  name="resposta" id="resposta1" value="1"/> <?php echo($vetorPergunta[2][0]); ?></label>
+                <div class="pergunta">
+                    <strong><?php echo($vetorPergunta[1]) ?></strong>
                 </div>
                 <div class="radio">
-                    <label><input type ="radio"  name="resposta" id="resposta1" value="2"/> <?php echo($vetorPergunta[2][1]); ?></label>
+                    <label><input type ="radio"  name="resposta" id="resposta1" value="1"/> <?php echo $resposta1; ?></label>
                 </div>
                 <div class="radio">
-                    <label><input type ="radio"  name="resposta" id="resposta1" value="3"/> <?php echo($vetorPergunta[2][2]); ?></label>
+                    <label><input type ="radio"  name="resposta" id="resposta1" value="2"/> <?php echo $resposta2; ?></label>
+                </div>
+                <div class="radio">
+                    <label><input type ="radio"  name="resposta" id="resposta1" value="3"/> <?php echo $resposta3; ?></label>
                 </div>
             </div><!-- .box -->
             <input type="hidden" name="id" id="id_pergunta" value="<?php echo($vetorPergunta[0]); ?>"/>
